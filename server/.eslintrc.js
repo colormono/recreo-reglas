@@ -9,10 +9,9 @@ module.exports = {
   extends: [
     'standard',
     'prettier',
-    'prettier/standard',
-    'plugin:jest/recommended'
+    'prettier/standard'
   ],
-  plugins: ['prettier', 'jest'],
+  plugins: ['prettier'],
   rules: {
     'promise/catch-or-return': 'error',
     'prettier/prettier': [
