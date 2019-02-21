@@ -1,0 +1,46 @@
+version: '3.6'
+
+services:
+  # CLIENT
+  client:
+    container_name: recreo-reglas-client
+    restart: always
+    build: ./client
+    ports:
+      - '4000:3000'
+    expose:
+      - 4000
+    volumes:
+      - ./client:/usr/src/client
+    depends_on:
+      - server
+
+  # SERVER
+  server:
+    container_name: recreo-reglas-server
+    restart: always
+    build: ./server
+    ports:
+      - '4001:4001'
+    expose:
+      - 4001
+    volumes:
+      - ./server:/usr/src/server
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    depends_on:
+      - 'database'
+
+  # DATABASE
+  database:
+    container_name: mongo
+    restart: always
+    image: mongo:4
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - ./data:/data/db
