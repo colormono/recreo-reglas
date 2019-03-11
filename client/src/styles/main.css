@@ -25,12 +25,23 @@ a {
   text-decoration: none;
 }
 
-.container {
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
   margin: 1em;
 }
 
-section {
+.app-main {
+  flex-grow: 1;
   padding: 1em;
+  margin: 0 1em;
   border: 1px solid #eeeeee;
-  margin-bottom: 1em;
+}
+
+.app-footer {
+  margin: 1em;
 }

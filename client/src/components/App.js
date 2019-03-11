@@ -1,41 +1,64 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as actions from '../actions';
+import socketIOClient from 'socket.io-client';
 
-import Header from './Header';
-import Footer from './Footer';
-//import Timbre from './Timbre';
-import TimbreWS from './TimbreWS';
-import Generate from './generate/Generate';
-
-const Dashboard = () => <h2>Dashboard</h2>;
-const Landing = () => <h2>Landing</h2>;
+import Testing from './Testing/Testing';
 
 class App extends Component {
-  componentDidMount() {
-    this.props.fetchKittens();
+  constructor(props) {
+    super(props);
+    this.socket = null;
+    this.state = {
+      endpoint: 'http://localhost:4001?token=colormono', // this is where we are connecting to with sockets
+      username: localStorage.getItem('username')
+        ? localStorage.getItem('username')
+        : '',
+      uid: localStorage.getItem('uid')
+        ? localStorage.getItem('uid')
+        : this.generateUID(),
+      users: [],
+      messages: [],
+      message: '',
+      testing: []
+    };
   }
+
+  componentDidMount() {
+    const { endpoint, username, uid } = this.state;
+    localStorage.setItem('username', username);
+    //this.socket = socketIOClient(endpoint);
+
+    this.socket = socketIOClient(endpoint, {
+      query: 'username=' + username + '&uid=' + uid
+    });
+
+    // Listeners
+    this.socket.on('testingData', data => console.log(data));
+    this.socket.on('testingData', data => this.setState({ testing: data }));
+  }
+
+  generateUID() {
+    let text = '';
+    let possible =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < 15; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    localStorage.setItem('uid', text);
+    return text;
+  }
+
+  sendMessage = () => {
+    //this.socket.emit('chat message', 'Hello Tini');
+    this.socket.emit('get json');
+  };
 
   render() {
     return (
-      <div className="app">
-        <BrowserRouter>
-          <div className="container">
-            <Header />
-            <Route exact path="/" component={Landing} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/generate" component={Generate} />
-            <TimbreWS />
-            <Footer />
-          </div>
-        </BrowserRouter>
-      </div>
+      <section>
+        <Testing sendMessage={this.sendMessage} data={this.state.testing} />
+      </section>
     );
   }
 }
 
-export default connect(
-  null,
-  actions
-)(App);
+export default App;

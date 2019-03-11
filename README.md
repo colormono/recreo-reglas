@@ -34,16 +34,23 @@ Estas son ideas tempranas para posibles sets de reglas: [duración, intensidad, 
 
 "Reglas" es el cerebro. Se divide en 2 etapas, el servidor y el cliente.
 
+La manera más sencilla para montar la arquitectura es utilizando [Docker](https://www.docker.com/).
+Con este servicio se pueden montar todo en una sóla línea de comando.
+
+1. Instalar e inicializar Docker
+2. Ingresar desde la terminal a la carpeta del proyecto
+3. Ejecutar: `docker-compose up --build`
+
+#### Otros comandos útiles:
+
+- `docker-machine ip`: Obtener IP de la máquina
+- `docker-compose up -d`: Montar servidor en silencio
+- `docker-compose exec server bash`: Ingresar a la consola del servidor
+- `docker-compose down`: Bajar el servidor
+
 ### Como montar el Servidor
 
-Para montar la arquitectura del servicio es requerido que [Docker](https://www.docker.com/) se encuentre instalado.
-
-1. Ingresar desde la terminal a la carpeta del proyecto y ejecutar: `docker-compose up --build`
-
-`docker-machine ip`
-`docker-compose up -d`
-`docker-compose exec server bash`
-`docker-compose down`
+1. Ingresar desde la terminal a la carpeta `server`
 
 ### Como montar el Cliente
 

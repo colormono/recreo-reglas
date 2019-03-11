@@ -1,0 +1,118 @@
+{
+  "devices": [
+    {
+      "id": 1,
+      "title": "Reglas API",
+      "status": 0,
+      "values": []
+    },
+    {
+      "id": 2,
+      "title": "Reglas Server",
+      "status": 0,
+      "values": []
+    },
+    {
+      "id": 3,
+      "title": "Reglas Cliente",
+      "status": 0,
+      "values": []
+    },
+    {
+      "id": 4,
+      "title": "Timbre",
+      "status": 0,
+      "values": []
+    },
+    {
+      "id": 5,
+      "title": "Columpio",
+      "status": 0,
+      "values": []
+    }
+  ],
+  "recreos": [
+    {
+      "id": 1,
+      "time": {
+        "created": 1552325654080,
+        "lastTime": 1552325667844,
+        "work": 1000,
+        "play": 1000
+      },
+      "world": {
+        "joy": 0.3,
+        "sadness": 0.3,
+        "anger": 0.3,
+        "fear": 0.3,
+        "disgust": 1,
+        "curiosity": 1,
+        "cruelty": 1,
+        "hope": 0.7,
+        "gravity": -0.1
+      },
+      "rhythm": {
+        "beat": 160,
+        "meter": 0,
+        "accent": 123,
+        "syncopation": 1,
+        "tempo": 1,
+        "grid": []
+      },
+      "palette": [
+        {
+          "h": 189,
+          "s": 100,
+          "b": 60
+        }
+      ],
+      "nice-color-palettes": [
+        "#69d2e7",
+        "#a7dbd8",
+        "#e0e4cc",
+        "#f38630",
+        "#fa6900"
+      ]
+    }
+  ],
+  "tempos": [
+    { "id": 1, "title": "largo", "description": "very slow, broad" },
+    { "id": 2, "title": "grave", "description": "very slow, solemn" },
+    { "id": 3, "title": "adagio", "description": "slow" },
+    {
+      "id": 4,
+      "title": "andante",
+      "description": "moderately slow, a walking pace"
+    },
+    { "id": 5, "title": "moderato", "description": "moderate" },
+    { "id": 6, "title": "allegretto", "description": "moderately fast" },
+    { "id": 7, "title": "allegro", "description": "fast" },
+    { "id": 8, "title": "vivace", "description": "lively" },
+    { "id": 9, "title": "presto", "description": "very fast" },
+    { "id": 10, "title": "prestissimo", "description": "as fast as possible" }
+  ],
+  "streams": [
+    {
+      "title": "Titulo",
+      "description": "descripcion",
+      "id": 1
+    },
+    {
+      "title": "Mariano Rivas",
+      "description": "testing",
+      "userId": "101440791009828483654",
+      "id": 11
+    },
+    {
+      "title": "Redirect",
+      "description": "redirect to streams after submit",
+      "userId": "101440791009828483654",
+      "id": 12
+    },
+    {
+      "title": "Nueva2",
+      "description": "Prueba2",
+      "id": 15
+    }
+  ]
+}

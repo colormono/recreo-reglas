@@ -1,9 +1,9 @@
 import React from 'react';
 
 const Footer = () => (
-  <div>
-    <a href="/testFind">Show me the kittens</a>
-  </div>
+  <footer className="app-footer">
+    <p>By COLORMONO</p>
+  </footer>
 );
 
 export default Footer;

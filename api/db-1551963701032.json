@@ -1,0 +1,26 @@
+{
+  "streams": [
+    {
+      "title": "Titulo",
+      "description": "descripcion",
+      "id": 1
+    },
+    {
+      "title": "Mariano Rivas",
+      "description": "testing",
+      "userId": "101440791009828483654",
+      "id": 11
+    },
+    {
+      "title": "Redirect",
+      "description": "redirect to streams after submit",
+      "userId": "101440791009828483654",
+      "id": 12
+    },
+    {
+      "title": "Nueva2",
+      "description": "Prueba2",
+      "id": 15
+    }
+  ]
+}
