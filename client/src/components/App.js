@@ -7,8 +7,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.socket = null;
+
     this.state = {
-      endpoint: 'http://localhost:4001?token=colormono', // this is where we are connecting to with sockets
+      endpoint: 'http://localhost:4001?device=reglas-cliente', // this is where we are connecting to with sockets
       username: localStorage.getItem('username')
         ? localStorage.getItem('username')
         : '',
@@ -32,8 +33,11 @@ class App extends Component {
     });
 
     // Listeners
+    this.socket.emit('getDevices');
+
     this.socket.on('testingData', data => console.log(data));
     this.socket.on('testingData', data => this.setState({ testing: data }));
+    this.socket.on('resDevices', data => console.log(data));
   }
 
   generateUID() {
