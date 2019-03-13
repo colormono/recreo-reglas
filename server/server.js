@@ -8,6 +8,9 @@ const routes = require('./routes/index');
 // config
 const port = process.env.PORT || 4001;
 const portAPI = process.env.API_PORT || 4002;
+const apiReglas = axios.create({
+  baseURL: `http://localhost:${portAPI}`
+});
 
 // app
 const app = express();
@@ -23,63 +26,90 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 // auth devices
-const authDevices = [
-  'reglas-cliente',
-  'timbre',
-  'columpio',
-  'fichines',
-  'soga',
-  'pelota'
-];
+let devicesList = [];
+const getDevicesList = async () => {
+  try {
+    const devices = await apiReglas.get('/devices');
+    devicesList = devices.data;
+  } catch (error) {
+    console.error(`Can't connect to the API: ${error.code}`);
+  }
+};
+getDevicesList();
 
-// middleware
+// middleware for authorization
 io.use((socket, next) => {
   let device = socket.handshake.query.device;
-  if (authDevices.includes(device)) {
-    return next();
-  }
-  return next(new Error('authentication error'));
+  devicesList.forEach(d => {
+    if (d.name === device) {
+      return next();
+    }
+  });
 });
 
 // websockets
 io.on('connection', socket => {
-  let device = socket.handshake.query.device;
-  console.log('connected:', device);
+  let deviceName = socket.handshake.query.device;
+  let deviceId = devicesList.filter(device => device.name === deviceName)[0].id;
+  console.log('connected', deviceName);
+  console.log('socket id', socket.id);
 
-  socket.on('disconnect', () => {
-    console.log('disconnected:', device);
+  socket.on('device:on', id => {
+    deviceOn(socket, id);
+    console.log('turned on', deviceName);
   });
 
-  socket.on('getDevices', () => {
-    console.log('devices connected');
-    queryApiAndEmit('devices', 'resDevices', socket);
+  socket.on('disconnect', () => {
+    deviceOff(socket, deviceId);
+    console.log('disconnected', deviceName);
+  });
+
+  socket.on('devices:update', () => {
+    queryApiAndEmit(socket, '/devices', 'devices:update');
+    console.log('update devices list');
   });
 
   socket.on('chat message', msg => {
     console.log('message: ', msg);
   });
 
-  socket.on('FromAPI', msg => {
-    console.log('FromAPI Sended: ', msg);
+  socket.on('send:all', data => {
+    io.sockets.emit('send:pattern', data);
   });
 
-  socket.on('get json', () => {
-    queryApiAndEmit('streams', 'testingData', socket);
-    // is equivalent to
+  socket.on('send:allExceptMe', data => {
+    socket.broadcast.emit('send:pattern', data);
+  });
 
-    // axios.get('http://localhost:4002/streams').then(res => {
-    //   socket.emit('FromAPI', res.data);
-    //   console.log('streams: ', res.data);
-    // });
+  socket.on('test', () => {
+    queryApiAndEmit(socket, '/streams', 'testingData');
   });
 });
 
-const queryApiAndEmit = async (endpoint, emitter, socket) => {
+const deviceOn = async (socket, id) => {
   try {
-    const res = await axios.get(`http://localhost:${portAPI}/${endpoint}`);
-    console.log('streams: ', res.data);
+    await apiReglas.patch(`/devices/${id}`, { status: 1 });
+    queryApiAndEmit(socket, '/devices', 'devices:update');
+  } catch (error) {
+    console.error(`Error: ${error.code}`);
+  }
+};
+
+const deviceOff = async (socket, id) => {
+  try {
+    await apiReglas.patch(`/devices/${id}`, { status: 0 });
+    queryApiAndEmit(socket, '/devices', 'devices:update');
+  } catch (error) {
+    console.error(`Error: ${error.code}`);
+  }
+};
+
+const queryApiAndEmit = async (socket, endpoint, emitter) => {
+  try {
+    const res = await apiReglas.get(endpoint);
+    console.error(res.data);
     socket.emit(emitter, res.data);
-    // return res.data;
+    console.log(`emited ${emitter}`);
   } catch (error) {
     console.error(`Error: ${error.code}`);
   }

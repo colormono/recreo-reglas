@@ -2,30 +2,35 @@
   "devices": [
     {
       "id": 1,
+      "name": "reglas-api",
       "title": "Reglas API",
       "status": 0,
       "values": []
     },
     {
       "id": 2,
+      "name": "reglas-server",
       "title": "Reglas Server",
       "status": 0,
       "values": []
     },
     {
       "id": 3,
+      "name": "reglas-cliente",
       "title": "Reglas Cliente",
       "status": 0,
       "values": []
     },
     {
       "id": 4,
+      "name": "timbre",
       "title": "Timbre",
       "status": 0,
       "values": []
     },
     {
       "id": 5,
+      "name": "columpio",
       "title": "Columpio",
       "status": 0,
       "values": []
@@ -76,20 +81,56 @@
     }
   ],
   "tempos": [
-    { "id": 1, "title": "largo", "description": "very slow, broad" },
-    { "id": 2, "title": "grave", "description": "very slow, solemn" },
-    { "id": 3, "title": "adagio", "description": "slow" },
+    {
+      "id": 1,
+      "title": "largo",
+      "description": "very slow, broad"
+    },
+    {
+      "id": 2,
+      "title": "grave",
+      "description": "very slow, solemn"
+    },
+    {
+      "id": 3,
+      "title": "adagio",
+      "description": "slow"
+    },
     {
       "id": 4,
       "title": "andante",
       "description": "moderately slow, a walking pace"
     },
-    { "id": 5, "title": "moderato", "description": "moderate" },
-    { "id": 6, "title": "allegretto", "description": "moderately fast" },
-    { "id": 7, "title": "allegro", "description": "fast" },
-    { "id": 8, "title": "vivace", "description": "lively" },
-    { "id": 9, "title": "presto", "description": "very fast" },
-    { "id": 10, "title": "prestissimo", "description": "as fast as possible" }
+    {
+      "id": 5,
+      "title": "moderato",
+      "description": "moderate"
+    },
+    {
+      "id": 6,
+      "title": "allegretto",
+      "description": "moderately fast"
+    },
+    {
+      "id": 7,
+      "title": "allegro",
+      "description": "fast"
+    },
+    {
+      "id": 8,
+      "title": "vivace",
+      "description": "lively"
+    },
+    {
+      "id": 9,
+      "title": "presto",
+      "description": "very fast"
+    },
+    {
+      "id": 10,
+      "title": "prestissimo",
+      "description": "as fast as possible"
+    }
   ],
   "streams": [
     {

@@ -4,7 +4,7 @@
 
 **Ordenador y pantalla con visualización de datos.**
 
-El primero se encarga de generar y comunicar un set de atributos o patrón de comportamiento, las reglas del recreo, al resto de las instalaciones. Se ocupa también de almacenar sus registros de actividad en memoria. El display exterioriza este set de reglas.
+"Reglas" es el cerebro. Se divide en 3 etapas: **API**, **servidor** y **cliente**. El primero se encarga de generar y comunicar un set de atributos o patrón de comportamiento, las reglas del recreo, al resto de las instalaciones. Se ocupa también de almacenar sus registros de actividad en memoria. El display exterioriza este set de reglas.
 
 Cada recreo implica un set de reglas nuevas, variaciones alimentadas por la memoria de recreos anteriores y pequeñas dosis de caos. Estos patrones son dispuestos en un servicio API para ser consumido por el resto de las estaciones, quienes actúan en consecuencia.
 Estas son ideas tempranas para posibles sets de reglas: [duración, intensidad, tono, frecuencia, ritmo, color, forma, gravedad], o [agresividad, tristeza, furia, temor, alegría, desagrado, extrañamiento].
@@ -14,6 +14,7 @@ Estas son ideas tempranas para posibles sets de reglas: [duración, intensidad, 
 ## Indice
 
 - [Instrucciones](#instrucciones)
+  - [Como montar la API](#como-montar-la-api)
   - [Como montar el Servidor](#como-montar-el-servidor)
   - [Como montar el Cliente](#como-montar-el-cliente)
   - [Testing](#testing)
@@ -32,12 +33,10 @@ Estas son ideas tempranas para posibles sets de reglas: [duración, intensidad, 
 
 ## Instrucciones
 
-"Reglas" es el cerebro. Se divide en 2 etapas, el servidor y el cliente.
-
 La manera más sencilla para montar la arquitectura es utilizando [Docker](https://www.docker.com/).
-Con este servicio se pueden montar todo en una sóla línea de comando.
+Con este servicio se pueden orquestar todo en una sóla línea de comando.
 
-1. Instalar e inicializar Docker
+1. Instalar e inicializar Docker y Docker compose
 2. Ingresar desde la terminal a la carpeta del proyecto
 3. Ejecutar: `docker-compose up --build`
 
@@ -48,13 +47,23 @@ Con este servicio se pueden montar todo en una sóla línea de comando.
 - `docker-compose exec server bash`: Ingresar a la consola del servidor
 - `docker-compose down`: Bajar el servidor
 
+### Como montar la API
+
+1. Ingresar desde la terminal a la carpeta `api`
+2. Instalar dependencias `npm i`
+3. Ejecutar servidor `npm start`
+
 ### Como montar el Servidor
 
 1. Ingresar desde la terminal a la carpeta `server`
+2. Instalar dependencias `npm i`
+3. Ejecutar servidor `npm start`
 
 ### Como montar el Cliente
 
-1. asd
+1. Ingresar desde la terminal a la carpeta `client`
+2. Instalar dependencias `npm i`
+3. Ejecutar servidor `npm start`
 
 ### Testing
 
@@ -88,6 +97,12 @@ Endpoints consumidos por el cliente:
 
 ## Código
 
+Librerías y Frameworks utilizados
+
+- [JSON Server](https://github.com/typicode/json-server)
+- [Socket.io](https://socket.io/docs/client-api/)
+- [React JS](https://reactjs.org)
+
 Qué son los Websockets? (adaptar resumen desde acá https://youtu.be/lcJzVP20McM?t=3m4s)
 
 - [Nombre](#examples/nombre) - Descripción
@@ -100,6 +115,7 @@ Qué son los Websockets? (adaptar resumen desde acá https://youtu.be/lcJzVP20Mc
 
 ## Enlaces útiles
 
+- [SocketIO Rooms and Namespaces](https://socket.io/docs/rooms-and-namespaces/)
 - [RESTful API Designing guidelines](https://hackernoon.com/restful-api-designing-guidelines-the-best-practices-60e1d954e7c9)
 - [Spotify Analysis in GO](https://github.com/zmb3/spotify/blob/master/audio_features.go)
 - [Socket.IO](https://socket.io/)

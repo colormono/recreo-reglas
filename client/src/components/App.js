@@ -1,65 +1,58 @@
 import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
+import { serverWs } from '../constants';
+//import apiReglas from '../api/reglas';
 
+import Status from './Status/Status';
 import Testing from './Testing/Testing';
+import Reglas from './Reglas/Reglas';
+
+const socket = socketIOClient(serverWs);
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.socket = null;
-
-    this.state = {
-      endpoint: 'http://localhost:4001?device=reglas-cliente', // this is where we are connecting to with sockets
-      username: localStorage.getItem('username')
-        ? localStorage.getItem('username')
-        : '',
-      uid: localStorage.getItem('uid')
-        ? localStorage.getItem('uid')
-        : this.generateUID(),
-      users: [],
-      messages: [],
-      message: '',
-      testing: []
-    };
-  }
+  state = {
+    devices: [],
+    pattern: {}
+  };
 
   componentDidMount() {
-    const { endpoint, username, uid } = this.state;
-    localStorage.setItem('username', username);
-    //this.socket = socketIOClient(endpoint);
-
-    this.socket = socketIOClient(endpoint, {
-      query: 'username=' + username + '&uid=' + uid
-    });
+    // Turn on reglas-cliente
+    socket.emit('device:on', 3);
 
     // Listeners
-    this.socket.emit('getDevices');
+    socket.on('devices:update', data => {
+      console.log(data);
+      this.setState({ devices: data });
+    });
 
-    this.socket.on('testingData', data => console.log(data));
-    this.socket.on('testingData', data => this.setState({ testing: data }));
-    this.socket.on('resDevices', data => console.log(data));
+    socket.on('pattern:new', data => {
+      console.log(data);
+      this.setState({ pattern: data });
+    });
+
+    socket.on('testingData', data => {
+      console.log(data);
+    });
   }
 
-  generateUID() {
-    let text = '';
-    let possible =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 15; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    localStorage.setItem('uid', text);
-    return text;
-  }
-
-  sendMessage = () => {
-    //this.socket.emit('chat message', 'Hello Tini');
-    this.socket.emit('get json');
+  getDeviceByName = name => {
+    const reglasId = this.state.devices
+      .filter(device => device.name === name)
+      .map(device => device)[0];
+    console.log(reglasId);
+    return reglasId;
   };
 
   render() {
+    if (!this.state.devices) {
+      return null;
+    }
+
     return (
       <section>
-        <Testing sendMessage={this.sendMessage} data={this.state.testing} />
+        <Testing socket={socket} />
+        <Status devices={this.state.devices} />
+        <Reglas device={this.getDeviceByName('reglas-cliente')} />
       </section>
     );
   }
