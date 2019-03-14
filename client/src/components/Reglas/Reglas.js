@@ -5,14 +5,21 @@ const Reglas = props => {
     return <div>Loading Recreo Cliente...</div>;
   }
 
+  const { device, socket } = props;
+
   const renderStatus = () => {
-    return props.device.status ? 'ON' : 'OFF';
+    return device.status ? 'ON' : 'OFF';
   };
 
   return (
     <aside className="widget widget-reglas">
-      <h4>Current Pattern</h4>
-      <div>Recreo is {renderStatus()}</div>
+      <span className="supertitle">
+        {device.title} is {renderStatus()}
+      </span>
+      <h2 className="title">
+        <span>REGLAS ACTUALES</span>
+      </h2>
+      <h4 />
     </aside>
   );
 };

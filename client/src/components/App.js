@@ -6,6 +6,7 @@ import { serverWs } from '../constants';
 import Status from './Status/Status';
 import Testing from './Testing/Testing';
 import Reglas from './Reglas/Reglas';
+import Quote from './Quote/Quote';
 
 const socket = socketIOClient(serverWs);
 
@@ -52,7 +53,11 @@ class App extends Component {
       <section>
         <Testing socket={socket} />
         <Status devices={this.state.devices} />
-        <Reglas device={this.getDeviceByName('reglas-cliente')} />
+        <Reglas
+          device={this.getDeviceByName('reglas-cliente')}
+          socket={socket}
+        />
+        <Quote />
       </section>
     );
   }

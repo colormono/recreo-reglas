@@ -1,27 +1,62 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Serif+JP|Roboto+Mono');
+@font-face {
+  font-family: 'Modalz Short';
+  src: url('../fonts/modalz-short.woff2') format('woff2'),
+    url('../fonts/modalz-short.woff') format('woff'),
+    url('../fonts/modalz-short.otf') format('opentype');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Modalz Tall';
+  src: url('../fonts/modalz-tall.woff2') format('woff2'),
+    url('../fonts/modalz-tall.woff') format('woff'),
+    url('../fonts/modalz-tall.otf') format('opentype');
+  font-style: normal;
+  font-weight: 400;
+}
+
+:root {
+  --white: #fff;
+  --grey: #666;
+  --black: #000;
+  --font-tall: 16px;
+  --font-short: 12px;
+  --font-supertall: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto Mono', monospace;
-  font-size: 13px;
-  background: #111111;
-  color: #eeeeee;
+  font-family: 'Modalz Short', monospace;
+  font-size: var(--font-short);
+  background: var(--black);
+  color: var(--white);
+  line-height: 1.1;
 }
 
 h1,
 h2,
-h3,
+h3 {
+  font-family: 'Modalz Tall', sans-serif;
+  font-size: var(--font-supertall);
+  margin-bottom: 16px;
+}
+
 h4,
 h5,
 h6 {
-  font-family: 'Noto Serif JP', sans-serif;
-  font-size: 24px;
-  margin-bottom: 1em;
+  font-family: 'Modalz Tall', sans-serif;
+  font-size: var(--font-tall);
+  margin-bottom: 8px;
 }
 
 a {
-  color: #eeeeee;
+  color: var(--white);
   text-decoration: none;
 }
 
@@ -32,16 +67,128 @@ a {
 }
 
 .app-header {
-  margin: 1em;
+  background: var(--white);
+  color: var(--black);
+  margin: 8px 8px 0 8px;
+  padding: 8px;
+}
+
+.app-header a {
+  color: var(--black);
 }
 
 .app-main {
   flex-grow: 1;
-  padding: 1em;
-  margin: 0 1em;
-  border: 1px solid #eeeeee;
+  margin: 0 8px;
+  border: 1px solid var(--white);
 }
 
 .app-footer {
-  margin: 1em;
+  margin: 8px;
+}
+
+.widget {
+  border: 1px solid var(--white);
+  padding: 8px;
+  margin: 8px;
+}
+
+.title {
+  color: var(--black);
+  position: relative;
+  hyphens: auto;
+}
+
+.title::after {
+  position: absolute;
+  display: block;
+  content: '';
+  width: 8px;
+  height: 4px;
+  margin: 8px 0;
+  background-color: var(--white);
+}
+
+.title span {
+  padding: 4px;
+  background-color: var(--white);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.supertitle {
+  display: block;
+  margin: 0 0 8px;
+}
+
+cite {
+  display: block;
+  margin-top: 8px;
+  color: var(--grey);
+}
+
+button {
+  appearance: none;
+  font-family: 'Modalz Short';
+  font-size: var(--font-short);
+  color: var(--black);
+  background-color: var(--white);
+  position: relative;
+  display: inline-block;
+  border: 4px solid var(--white);
+  margin: 4px;
+  padding: 8px;
+  -webkit-clip-path: polygon(
+    0 4px,
+    2px 4px,
+    2px 2px,
+    4px 2px,
+    4px 0,
+    calc(100% - 4px) 0,
+    calc(100% - 4px) 2px,
+    calc(100% - 2px) 2px,
+    calc(100% - 2px) 4px,
+    100% 4px,
+    100% calc(100% - 4px),
+    calc(100% - 2px) calc(100% - 4px),
+    calc(100% - 2px) calc(100% - 2px),
+    calc(100% - 4px) calc(100% - 2px),
+    calc(100% - 4px) 100%,
+    4px 100%,
+    4px calc(100% - 2px),
+    2px calc(100% - 2px),
+    2px calc(100% - 4px),
+    0 calc(100% - 4px)
+  );
+  clip-path: polygon(
+    0 4px,
+    2px 4px,
+    2px 2px,
+    4px 2px,
+    4px 0,
+    calc(100% - 4px) 0,
+    calc(100% - 4px) 2px,
+    calc(100% - 2px) 2px,
+    calc(100% - 2px) 4px,
+    100% 4px,
+    100% calc(100% - 4px),
+    calc(100% - 2px) calc(100% - 4px),
+    calc(100% - 2px) calc(100% - 2px),
+    calc(100% - 4px) calc(100% - 2px),
+    calc(100% - 4px) 100%,
+    4px 100%,
+    4px calc(100% - 2px),
+    2px calc(100% - 2px),
+    2px calc(100% - 4px),
+    0 calc(100% - 4px)
+  );
+}
+
+button:hover,
+button:active,
+button:focus {
+  -webkit-filter: invert(0);
+  filter: invert(0);
+  -webkit-transform: translate(2px, 2px);
+  transform: translate(2px, 2px);
 }
