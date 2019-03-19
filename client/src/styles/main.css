@@ -18,7 +18,7 @@
 
 :root {
   --white: #fff;
-  --grey: #666;
+  --grey: #0000ff;
   --black: #000;
   --font-tall: 16px;
   --font-short: 12px;
@@ -60,6 +60,14 @@ a {
   text-decoration: none;
 }
 
+hr {
+  flex-grow: 1;
+  border: 1px solid var(--white);
+  margin: 8px 0;
+  height: 1px;
+  width: 100%;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -67,20 +75,33 @@ a {
 }
 
 .app-header {
-  background: var(--white);
-  color: var(--black);
+  background: var(--grey);
+  color: var(--white);
   margin: 8px 8px 0 8px;
   padding: 8px;
 }
 
-.app-header a {
+.app-header a,
+.app-header a:hover,
+.app-header a:active,
+.app-header a:visited {
   color: var(--black);
 }
 
 .app-main {
   flex-grow: 1;
   margin: 0 8px;
-  border: 1px solid var(--white);
+  border: 1px solid var(--grey);
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row {
+  display: flex;
+  width: 100%;
 }
 
 .app-footer {
@@ -88,9 +109,24 @@ a {
 }
 
 .widget {
+  flex-grow: 1;
   border: 1px solid var(--white);
   padding: 8px;
   margin: 8px;
+  width: 100%;
+  box-shadow: 4px 4px 0px var(--grey);
+}
+
+.widget.one-quarter {
+  width: 25%;
+}
+
+.widget.one-half {
+  width: 50%;
+}
+
+.widget.three-quarters {
+  width: 75%;
 }
 
 .title {

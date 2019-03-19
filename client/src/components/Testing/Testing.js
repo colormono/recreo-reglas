@@ -1,10 +1,10 @@
 import React from 'react';
-import apiReglas from '../../api/reglas';
+import ReglasAPI from '../../api/reglas';
 
 const fetchPattern = id => {
-  apiReglas
-    .get(`/recreos/${id}`)
-    .then(response => console.log('recreo', response.data));
+  ReglasAPI.get(`/recreos/${id}`).then(response =>
+    console.log('recreo', response.data)
+  );
 };
 
 const sendMessage = socket => {
@@ -12,8 +12,24 @@ const sendMessage = socket => {
 };
 
 const TestWS = props => {
+  if (!props.devices) {
+    return null;
+  }
+
   return (
     <aside className="widget" id="widget-tests">
+      <span className="supertitle">Testing</span>
+      <h2 className="title">
+        <span>Devices</span>
+      </h2>
+      <div className="row">
+        {props.devices.map(device => (
+          <div key={device.id} style={{ marginRight: '16px' }}>
+            ({device.id}){device.name}={device.status}
+          </div>
+        ))}
+      </div>
+      <hr />
       <button onClick={sendMessage}>Send Message</button>
       <button onClick={() => props.socket.emit('devices:update')}>
         Update devices list

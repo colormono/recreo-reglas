@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 import { serverWs } from '../constants';
-//import apiReglas from '../api/reglas';
+//import ReglasAPI from '../api/reglas';
 
-import Status from './Status/Status';
 import Testing from './Testing/Testing';
 import Reglas from './Reglas/Reglas';
 import Quote from './Quote/Quote';
@@ -50,14 +49,15 @@ class App extends Component {
     }
 
     return (
-      <section>
-        <Testing socket={socket} />
-        <Status devices={this.state.devices} />
-        <Reglas
-          device={this.getDeviceByName('reglas-cliente')}
-          socket={socket}
-        />
-        <Quote />
+      <section className="grid">
+        <div className="row">
+          <Reglas
+            device={this.getDeviceByName('reglas-cliente')}
+            socket={socket}
+          />
+          <Quote />
+        </div>
+        <Testing socket={socket} devices={this.state.devices} />
       </section>
     );
   }

@@ -8,7 +8,7 @@ const routes = require('./routes/index');
 // config
 const port = process.env.PORT || 4001;
 const portAPI = process.env.API_PORT || 4002;
-const apiReglas = axios.create({
+const ReglasAPI = axios.create({
   baseURL: `http://localhost:${portAPI}`
 });
 
@@ -29,7 +29,7 @@ const io = socketIo(server);
 let devicesList = [];
 const getDevicesList = async () => {
   try {
-    const devices = await apiReglas.get('/devices');
+    const devices = await ReglasAPI.get('/devices');
     devicesList = devices.data;
   } catch (error) {
     console.error(`Can't connect to the API: ${error.code}`);
@@ -38,21 +38,36 @@ const getDevicesList = async () => {
 getDevicesList();
 
 // middleware for authorization
-io.use((socket, next) => {
-  let device = socket.handshake.query.device;
-  devicesList.forEach(d => {
-    if (d.name === device) {
-      return next();
-    }
-  });
-});
+// io.use((socket, next) => {
+//   let device = socket.handshake.query.device;
+//   devicesList.forEach(d => {
+//     if (d.name === device) {
+//       return next();
+//     }
+//   });
+// });
 
 // websockets
 io.on('connection', socket => {
   let deviceName = socket.handshake.query.device;
-  let deviceId = devicesList.filter(device => device.name === deviceName)[0].id;
-  console.log('connected', deviceName);
+  let deviceId = 0;
+  if (deviceName) {
+    let deviceId = devicesList.filter(device => device.name === deviceName)[0]
+      .id;
+  }
+  //console.log('connected', deviceName);
   console.log('socket id', socket.id);
+
+  io.sockets.emit('update:timbre', {
+    led: 1,
+    relay: 2
+  });
+
+  socket.on('device:connected', msg => {
+    console.log('connected', msg);
+    console.log('connected with id', socket.id);
+    console.log('should create a list and addit to control connected devices');
+  });
 
   socket.on('device:on', id => {
     deviceOn(socket, id);
@@ -62,6 +77,7 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     deviceOff(socket, deviceId);
     console.log('disconnected', deviceName);
+    console.log('disconnected with id', socket.id);
   });
 
   socket.on('devices:update', () => {
@@ -71,6 +87,14 @@ io.on('connection', socket => {
 
   socket.on('chat message', msg => {
     console.log('message: ', msg);
+  });
+
+  socket.on('heartBeat', msg => {
+    console.log('heartBeat from timbre: ', msg);
+  });
+
+  socket.on('messageType', msg => {
+    console.log('message from timbre: ', msg);
   });
 
   socket.on('send:all', data => {
@@ -88,7 +112,7 @@ io.on('connection', socket => {
 
 const deviceOn = async (socket, id) => {
   try {
-    await apiReglas.patch(`/devices/${id}`, { status: 1 });
+    await ReglasAPI.patch(`/devices/${id}`, { status: 1 });
     queryApiAndEmit(socket, '/devices', 'devices:update');
   } catch (error) {
     console.error(`Error: ${error.code}`);
@@ -97,7 +121,7 @@ const deviceOn = async (socket, id) => {
 
 const deviceOff = async (socket, id) => {
   try {
-    await apiReglas.patch(`/devices/${id}`, { status: 0 });
+    await ReglasAPI.patch(`/devices/${id}`, { status: 0 });
     queryApiAndEmit(socket, '/devices', 'devices:update');
   } catch (error) {
     console.error(`Error: ${error.code}`);
@@ -106,7 +130,7 @@ const deviceOff = async (socket, id) => {
 
 const queryApiAndEmit = async (socket, endpoint, emitter) => {
   try {
-    const res = await apiReglas.get(endpoint);
+    const res = await ReglasAPI.get(endpoint);
     console.error(res.data);
     socket.emit(emitter, res.data);
     console.log(`emited ${emitter}`);
